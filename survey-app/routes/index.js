@@ -21,7 +21,7 @@
 var keystone = require('keystone');
 var middleware = require('./middleware');
 var importRoutes = keystone.importer(__dirname);
-
+const passport = require('./lib/auth/github');
 var apiHandlers = require('./api/resource');
 
 // Common Middleware
@@ -31,6 +31,7 @@ keystone.pre('render', middleware.flashMessages);
 // Import Route Controllers
 var routes = {
 	views: importRoutes('./views'),
+	auth: importRoutes('./auth')
 };
 
 // Setup Route Bindings
@@ -44,6 +45,16 @@ exports = module.exports = function (app) {
 	app.get('/team', middleware.requireUser, routes.views.team);
 	app.get('/resources', middleware.requireUser, routes.views.resources);
 	app.get('/home', middleware.requireUser, routes.views.home);
+	app.get('/auth/github', passport.authenticate('github', { failureRedirect: '/' }),
+		function (req, res) {
+			// Successful authentication, redirect home.
+			res.redirect('/');
+		})
+
+	// Auth routes
+	app.all('/auth/confirm', routes.auth.confirm);
+	app.all('/auth/app', routes.auth.app);
+	app.all('/auth/:service', routes.auth.service);
 
 	// NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
 	// app.get('/protected', middleware.requireUser, routes.views.protected);

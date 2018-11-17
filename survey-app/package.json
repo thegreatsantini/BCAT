@@ -6,8 +6,12 @@
     "async": "2.1.4",
     "dotenv": "4.0.0",
     "keystone": "^4.0.0",
-    "lodash": "^4.13.1",
+    "keystone-social-login": "github:JohnnyEstilles/keystone-social-login",
+    "lodash": "^4.17.11",
+    "passport": "^0.4.0",
+    "passport-github": "^1.1.0",
     "pug": "2.0.0-beta11",
+    "request": "^2.88.0",
     "stylus": "0.54.5"
   },
   "devDependencies": {
