@@ -4,7 +4,6 @@ require('dotenv').config();
 
 // Require keystone
 var keystone = require('keystone');
-var social = require('keystone-social-login');
 
 // Initialise Keystone with your project's configuration.
 // See http://keystonejs.com/guide/config for available options
@@ -26,26 +25,6 @@ keystone.init({
 	'user model': 'User',
 });
 
-social.config({
-	keystone: keystone,
-	'signin url': `${process.env.SERVER_URL}/signup/social`,
-	'auto create user': true,
-	onAuthenticate: function (accessToken, refreshToken, profile, cb) {
-        User.findOrCreate({ githubId: profile.id }, function (err, user) {
-            return cb(err, user);
-        });
-    },
-	providers: {
-		google: {
-			clientID: 'your-client-id',
-			clientSecret: 'your-client-secret'
-		},
-		github: {
-			clientID: process.env.GITHUB_CLIENT_ID,
-			clientSecret: process.env.GITHUB_CLIENT_SECRET
-		}
-	}
-});
 
 // Load your project's Models
 keystone.import('models');
@@ -76,6 +55,4 @@ keystone.set('nav', {
 
 // Start Keystone to connect to your database and initialise the web server
 
-
-social.start();
 keystone.start();

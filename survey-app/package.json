@@ -6,7 +6,6 @@
     "async": "2.1.4",
     "dotenv": "4.0.0",
     "keystone": "^4.0.0",
-    "keystone-social-login": "github:JohnnyEstilles/keystone-social-login",
     "lodash": "^4.17.11",
     "passport": "^0.4.0",
     "passport-github": "^1.1.0",
