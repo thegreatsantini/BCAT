@@ -1,13 +1,14 @@
 require('dotenv').config();
+var _ = require('lodash');
 const keystone = require('keystone');
 const passport = require('passport');
 const request = require('request');
-const GitHubStrategy = require('passport-github').Strategy;
+var GitHubStrategy = require('passport-github').Strategy;
 const User = keystone.list('User')
 
 const credentials = {
-    clientID: GITHUB_CLIENT_ID,
-    clientSecret: GITHUB_CLIENT_SECRET,
+    clientID: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
     callbackURL: "http://127.0.0.1:3000/auth/github/callback"
 }
 
@@ -25,7 +26,7 @@ exports.authenticateUser = function (req, res, next) {
 
     // Initalise GitHub credentials
 
-    var githubStrategy = new GithubStrategy(credentials, function (accessToken, refreshToken, profile, done) {
+    var githubStrategy = new GitHubStrategy(credentials, function (accessToken, refreshToken, profile, done) {
         done(null, {
             accessToken: accessToken,
             refreshToken: refreshToken,
